@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+table {
+	border-collapse: collapse;
+	margin-bottom: 12px;
+}
+
+th {
+	padding: 4px 8px 4px 8px;
+	border: solid 1px #beb;
+	background-color: #cfc;
+	color: #0a0;
+	font-weight: normal;
+	text-align: center;
+}
+
+td {
+	padding: 4px 8px 4px 8px;
+	border: solid 1px #ddd;
+}
+
+.table_col_code {
+	text-align: left;
+}
+
+.table_col_name {
+	text-align: left;
+}
+
+.table_col_num {
+	text-align: right;
+}
+
+.table_col_button {
+	text-align: center;
+}
+
+.table_col_title {
+	text-align: center;
+}
+
+.table_col_footer {
+	background-color: #efe;
+}
+
+.current_time {
+	text-align: right;
+}
+
+.accepted_ordered_number {
+	font-size: 1.5rem;
+	color: #f80;
+}
