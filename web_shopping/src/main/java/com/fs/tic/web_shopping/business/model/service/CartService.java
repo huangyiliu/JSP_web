@@ -1,177 +1,138 @@
 package com.fs.tic.web_shopping.business.model.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.fs.tic.web_shopping.business.model.Cart;
 import com.fs.tic.web_shopping.business.model.CartCustomer;
 import com.fs.tic.web_shopping.business.model.bean.ItemBean;
+import com.fs.tic.web_shopping.business.util.LangUtility;
 import com.fs.tic.web_shopping.business.util.PropertyLoader;
 
 /**
- * 業務サービスの実装クラスです。
- * 
+ * カートサービスの実装クラスです。
+ *
  * <pre>
  *   カート操作に関するサービスを提供します。
  * </pre>
  */
 public final class CartService extends AbstractBusinessService {
-	/** インスタンス */
 	private static final CartService instance = new CartService();
-	
-	/**
-	 * インスタンスを取得します。
-	 * @return CartService インスタンス
-	 */
+
 	public static CartService getInstance() {
 		return instance;
 	}
-	
-	/**
-	 * CartService.
-	 */
+
 	private CartService() {
 	}
-	
-	/**
-	 * 注文を確定するために、カートをチェックアウトします。
-	 * @param request HttpServletRequest
-	 * @return Cart カート
-	 * @throws IllegalStateException - チェックアウトできない状態
-	 */
+
 	public Cart checkout(HttpServletRequest request) {
-		// カート商品チェック
 		if (!hasItem(request)) {
-			// カート商品なし
 			throw new IllegalStateException(PropertyLoader.getProperty("message.cart.empty"));
 		}
-		// 顧客情報チェック
 		if (!hasCustomer(request)) {
-			// 顧客情報なし
 			throw new IllegalStateException(PropertyLoader.getProperty("message.customer.empty"));
 		}
-		// ショッピングカートを取得
 		Cart cart = getSessionCart(request, true);
-		// カート返却
 		return cart.checkout();
 	}
-	
-	/**
-	 * 購入商品をカートに追加します。
-	 * @param request HttpServletRequest
-	 * @param item 購入商品
-	 * @param quantity 購入数量
-	 */
+
 	public void addItem(HttpServletRequest request, ItemBean item, int quantity) {
-		// ショッピングカートを取得
 		Cart cart = getSessionCart(request, true);
-		// 購入商品を追加
 		cart.addItem(item, quantity);
 	}
-	
-	/**
-	 * カートから購入商品を削除します。
-	 * @param request HttpServletRequest
-	 * @param itemCode 商品コード
-	 */
+
 	public void removeItem(HttpServletRequest request, String itemCode) {
-		// ショッピングカートを取得
 		Cart cart = getSessionCart(request, false);
-		// カート有無判定
-		if (cart == null) {
-			// カートがなければ処理終了
-			return;
+		if (cart != null) {
+			cart.removeItem(itemCode);
 		}
-		// 購入商品を削除
-		cart.removeItem(itemCode);
 	}
-	
-	/**
-	 * カートに商品が登録されているか判断します。
-	 * @param request HttpServletRequest
-	 * @return boolean 判断結果 - カートに商品が登録されている場合は true
-	 */
+
 	public boolean hasItem(HttpServletRequest request) {
-		// ショッピングカートを取得
 		Cart cart = getSessionCart(request, false);
-		// カート有無判定
-		if (cart == null) {
-			// カートなし
-			return false;
-		}
-		// カート商品有無判断
-		return cart.hasItem();
+		return cart != null && cart.hasItem();
 	}
-	
-	/**
-	 * 顧客情報を設定します。
-	 * @param request HttpServletRequest
-	 * @param customer 顧客情報
-	 */
+
 	public void setCustomer(HttpServletRequest request, CartCustomer customer) {
-		// ショッピングカートを取得
 		Cart cart = getSessionCart(request, true);
-		// 顧客情報設定
 		cart.setCustomer(customer);
 	}
-	
-	/**
-	 * 顧客情報を取得します。
-	 * @param request HttpServletRequest
-	 * @return CartCustomer 顧客情報 - 存在しない場合は null
-	 */
+
 	public CartCustomer getCustomer(HttpServletRequest request) {
-		// ショッピングカートを取得
 		Cart cart = getSessionCart(request, false);
-		// カート有無判定
-		if (cart == null) {
-			// 顧客情報なし
-			return null;
-		}
-		// 顧客情報返却
-		return cart.getCustomer();
+		return (cart != null) ? cart.getCustomer() : null;
 	}
-	
-	/**
-	 * 顧客情報を保持しているか判断します。
-	 * @param request HttpServletRequest
-	 * @return boolean 判断結果 - 顧客情報を保持している場合は true
-	 */
+
 	public boolean hasCustomer(HttpServletRequest request) {
-		// ショッピングカートを取得
 		Cart cart = getSessionCart(request, false);
-		// カート有無判定
-		if (cart == null) {
-			// カートなし
-			return false;
-		}
-		// 顧客情報有無
-		return cart.hasCustomer();
+		return (cart != null) && cart.hasCustomer();
 	}
-	
-	/**
-	 * セッションからショッピングカートを取得します。
-	 * @param request HttpServletRequest
-	 * @param create ショッピングカートが存在しない場合に新規作成する場合は true
-	 * @return Cart ショッピングカート - ショッピングカートが存在せず、新規作成しない場合は null
-	 */
+
 	private Cart getSessionCart(HttpServletRequest request, boolean create) {
-		// セッション取得
 		HttpSession session = request.getSession(create);
-		// セッション有無判断
 		if (session == null) {
 			return null;
 		}
-		// セッションからショッピングカートを取得
-		Cart cart = (Cart)session.getAttribute("cart");
-		// ショッピングカート有無判断
+		Cart cart = (Cart) session.getAttribute("cart");
 		if (cart == null && create) {
-			// ショッピングカートが存在しなければ新規作成
 			cart = new Cart();
-			// セッションに登録
 			session.setAttribute("cart", cart);
 		}
-		// ショッピングカート返却
 		return cart;
+	}
+
+	public static class CustomerResult {
+		private CartCustomer customer;
+		private Map<String, String> errors;
+
+		public CustomerResult(CartCustomer customer, Map<String, String> errors) {
+			this.customer = customer;
+			this.errors = errors;
+		}
+
+		public CartCustomer getCustomer() {
+			return customer;
+		}
+
+		public Map<String, String> getErrors() {
+			return errors;
+		}
+	}
+
+	public CartService.CustomerResult setCustomer(CartCustomer customer) {
+		return checkCustomer(customer);
+	}
+
+	public String processCustomerResult(CartService.CustomerResult customerResult) {
+		Map<String, String> errors = customerResult.getErrors();
+		return (!errors.isEmpty()) ? "/errorPage.jsp" : "/confirm_order.jsp";
+	}
+
+	public CartService.CustomerResult checkCustomer(CartCustomer customer) {
+		Map<String, String> result = new HashMap<>();
+
+		if (LangUtility.isEmpty(customer.getCustomerName())) {
+			result.put("name", "名前が入力されていません。");
+		}
+
+		if (LangUtility.isEmpty(customer.getAddress())) {
+			result.put("address", "住所が入力されていません。");
+		}
+
+		String tel = customer.getTel();
+		if (LangUtility.isEmpty(tel) || !tel.matches("\\d{10,11}")) {
+			result.put("phoneNumber", "電話番号が入力されていません。");
+		}
+
+		String email = customer.getEmail();
+		if (LangUtility.isEmpty(email) || !email.matches("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b")) {
+			// 電子郵件未填入或格式不符合要求，可能需要返回錯誤消息或採取其他操作
+		}
+
+		return new CartService.CustomerResult(customer, result);
 	}
 }

@@ -24,4 +24,24 @@
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
   </resource-ref>
+  <servlet>
+    <description></description>
+    <display-name>GetService</display-name>
+    <servlet-name>GetService</servlet-name>
+    <servlet-class>com.fs.tic.web_shopping.business.model.dao.GetService</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetService</servlet-name>
+    <url-pattern>/GetService</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>OrderedItemBean</display-name>
+    <servlet-name>OrderedItemBean</servlet-name>
+    <servlet-class>com.fs.tic.web_shopping.business.model.bean.OrderedItemBean</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderedItemBean</servlet-name>
+    <url-pattern>/OrderedItemBean</url-pattern>
+  </servlet-mapping>
 </web-app>

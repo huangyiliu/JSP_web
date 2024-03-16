@@ -18,7 +18,7 @@ public abstract class AbstractDataAccessObject {
 		// コネクション取得
 		return ConnectionManager.getInstance().getConnection();
 	}
-	
+
 	/**
 	 * コネクションをリリースします。
 	 * @param con コネクション
@@ -27,7 +27,7 @@ public abstract class AbstractDataAccessObject {
 		// コネクションリリース
 		ConnectionManager.getInstance().releaseConnection(con);
 	}
-	
+
 	/**
 	 * java.util.Date を java.sql.Timestamp に変換します。
 	 * @param date Date

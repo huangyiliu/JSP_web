@@ -11,7 +11,7 @@ public class CartItem {
 	private final ItemBean item;
 	/** 購入数量 */
 	private int quantity;
-	
+
 	/**
 	 * CartItem を構築します。
 	 * @param item 商品情報
@@ -19,7 +19,7 @@ public class CartItem {
 	public CartItem(ItemBean item) {
 		this.item = item;
 	}
-	
+
 	/**
 	 * 購入数量を設定します。
 	 * @param quantity 購入数量
@@ -27,7 +27,7 @@ public class CartItem {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
+
 	/**
 	 * 商品コードを取得します。
 	 * @return String 商品コード
@@ -35,7 +35,7 @@ public class CartItem {
 	public String getItemCode() {
 		return item.getItemCode();
 	}
-	
+
 	/**
 	 * カテゴリコードを取得します。
 	 * @return String カテゴリコード
@@ -43,7 +43,7 @@ public class CartItem {
 	public String getCategoryCode() {
 		return item.getCategoryCode();
 	}
-	
+
 	/**
 	 * 商品名を取得します。
 	 * @return String 商品名
@@ -51,7 +51,7 @@ public class CartItem {
 	public String getItemName() {
 		return item.getItemName();
 	}
-	
+
 	/**
 	 * 単価を取得します。
 	 * @return int 単価
@@ -59,7 +59,7 @@ public class CartItem {
 	public int getItemPrice() {
 		return item.getItemPrice();
 	}
-	
+
 	/**
 	 * 購入数量を取得します。
 	 * @return int 購入数量
@@ -67,7 +67,7 @@ public class CartItem {
 	public int getQuantity() {
 		return quantity;
 	}
-	
+
 	/**
 	 * 購入合計金額を取得します。
 	 * @return int 購入合計金額
@@ -76,7 +76,7 @@ public class CartItem {
 		// 単価 × 購入数量
 		return getItemPrice() * getQuantity();
 	}
-	
+
 	/**
 	 * OrderedDetailBean 表現にします。
 	 * @param orderedNumber 注文番号
@@ -94,5 +94,18 @@ public class CartItem {
 		bean.setUnitPrice(item.getItemPrice());
 		// 注文明細情報返却
 		return bean;
+	}
+
+	public ItemBean getItem() {
+		return item;
+	}
+
+	@Override
+	public String toString() {
+		return "CartItem{" +
+				"item=" + getItem() +
+				", quantity=" + getQuantity() +
+				// 其他屬性
+				'}';
 	}
 }

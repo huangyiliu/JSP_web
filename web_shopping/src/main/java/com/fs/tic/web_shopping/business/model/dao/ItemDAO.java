@@ -11,7 +11,7 @@ import com.fs.tic.web_shopping.business.model.bean.ItemBean;
 
 /**
  * データアクセスオブジェクトの実装クラスです。
- * 
+ *
  * <pre>
  *   [item] 商品マスタ
  * </pre>
@@ -50,6 +50,7 @@ public class ItemDAO extends AbstractDataAccessObject {
 				bean.setCategoryCode(rs.getString("category_code"));
 				bean.setItemName(rs.getString("item_name"));
 				bean.setItemPrice(rs.getInt("item_price"));
+				bean.setImagePath(rs.getString("image_path"));
 				// 商品リストに追加
 				list.add(bean);
 			}
@@ -63,7 +64,7 @@ public class ItemDAO extends AbstractDataAccessObject {
 			releaseConnection(con);
 		}
 	}
-	
+
 	/**
 	 * 対象の商品情報を取得します。
 	 * @param itemCode 商品コード
@@ -96,6 +97,7 @@ public class ItemDAO extends AbstractDataAccessObject {
 				bean.setCategoryCode(rs.getString("category_code"));
 				bean.setItemName(rs.getString("item_name"));
 				bean.setItemPrice(rs.getInt("item_price"));
+				bean.setImagePath(rs.getString("image_path"));
 			}
 			// クローズ
 			rs.close();

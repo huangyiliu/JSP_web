@@ -11,6 +11,7 @@ import com.fs.tic.web_shopping.business.model.bean.OrderedBean;
 import com.fs.tic.web_shopping.business.model.bean.OrderedDetailBean;
 
 /**
+ *
  * ショッピングカートクラスです。
  */
 public class Cart {
@@ -20,7 +21,7 @@ public class Cart {
 	private CartCustomer customer = null;
 	/** 購入日時 */
 	private Date orderedDatetime = new Date();
-	
+
 	/**
 	 * カートをクリアします。
 	 * @return Cart クリア前の情報を保持したカート
@@ -37,7 +38,7 @@ public class Cart {
 		// クリア前のカート返却
 		return c;
 	}
-	
+
 	/**
 	 * 注文を確定するために、カートをチェックアウトします。
 	 * @return Cart 自身のインスタンス
@@ -48,7 +49,7 @@ public class Cart {
 		// 自身を返却
 		return this;
 	}
-	
+
 	/**
 	 * 購入商品をカートに追加します。
 	 * @param item 購入商品
@@ -67,7 +68,7 @@ public class Cart {
 		// 購入数量
 		cartItem.setQuantity(cartItem.getQuantity() + quantity);
 	}
-	
+
 	/**
 	 * カートから商品を削除します。
 	 * @param itemCode 商品コード
@@ -76,7 +77,7 @@ public class Cart {
 		// 対象商品を削除
 		itemList.remove(itemCode);
 	}
-	
+
 	/**
 	 * カートに商品が登録されているか判断します。
 	 * @return boolean 判断結果 - カートに商品が登録されている場合は true
@@ -85,7 +86,7 @@ public class Cart {
 		// 商品登録有無
 		return !itemList.isEmpty();
 	}
-	
+
 	/**
 	 * 表示用の商品一覧参照です。
 	 * @return Map<String, CartItem> 表示用の商品一覧参照
@@ -93,9 +94,27 @@ public class Cart {
 	@SuppressWarnings("unchecked")
 	public synchronized Map<String, CartItem> getItemListForReference() {
 		// 複製を返却
-		return (Map<String, CartItem>)itemList.clone();
+		return (Map<String, CartItem>) itemList.clone();
 	}
-	
+
+	/**
+	 * 顧客情報を設定します。
+	 * @param customer 顧客情報
+	 */
+	public void setCustomer(CartCustomer customer) {
+		// 顧客情報設定
+		this.customer = customer;
+	}
+
+	/**
+	 * 顧客情報を取得します。
+	 * @return CartCustomer 顧客情報 - 存在しない場合は null
+	 */
+	public CartCustomer getCustomer() {
+		// 顧客情報返却
+		return customer;
+	}
+
 	/**
 	 * カート合計金額を取得します。
 	 * @return long カート合計金額
@@ -109,25 +128,7 @@ public class Cart {
 		// 合計金額返却
 		return total;
 	}
-	
-	/**
-	 * 顧客情報を設定します。
-	 * @param customer 顧客情報
-	 */
-	public void setCustomer(CartCustomer customer) {
-		// 顧客情報設定
-		this.customer = customer;
-	}
-	
-	/**
-	 * 顧客情報を取得します。
-	 * @return CartCustomer 顧客情報 - 存在しない場合は null
-	 */
-	public CartCustomer getCustomer() {
-		// 顧客情報返却
-		return customer;
-	}
-	
+
 	/**
 	 * 顧客情報を保持しているか判断します。
 	 * @return boolean 判断結果 - 顧客情報を保持している場合は true
@@ -136,7 +137,7 @@ public class Cart {
 		// 顧客情報有無
 		return customer != null;
 	}
-	
+
 	/**
 	 * OrderedBean 表現にします。
 	 * @param customerNumber 顧客番号
@@ -152,7 +153,7 @@ public class Cart {
 		// 注文情報返却
 		return bean;
 	}
-	
+
 	/**
 	 * OrderedDetailBean リスト表現にします。
 	 * @param orderedNumber 注文番号
@@ -171,7 +172,7 @@ public class Cart {
 		// 注文明細情報リスト返却
 		return list;
 	}
-	
+
 	/**
 	 * クローンを生成します。
 	 * @return Cart クローン
@@ -187,4 +188,20 @@ public class Cart {
 		// クローンを返却
 		return c;
 	}
+
+	public LinkedHashMap<String, CartItem> getItemList() {
+		return itemList;
+	}
+
+
+	// 在 Cart 類中加入 toString 方法
+	@Override
+	public String toString() {
+		return "Cart{" +
+				"itemList=" + itemList +
+				", customer=" + customer +
+				", orderedDatetime=" + orderedDatetime +
+				'}';
+	}
+
 }

@@ -15,7 +15,8 @@ public class CartCustomer {
 	private final String tel;
 	/** メールアドレス */
 	private final String email;
-	
+
+
 	/**
 	 * CartCustomer を構築します。
 	 * @param customerName 顧客名
@@ -29,7 +30,7 @@ public class CartCustomer {
 		this.tel = tel;
 		this.email = email;
 	}
-	
+
 	/**
 	 * 顧客名を取得します。
 	 * @return String 顧客名
@@ -37,7 +38,7 @@ public class CartCustomer {
 	public String getCustomerName() {
 		return customerName;
 	}
-	
+
 	/**
 	 * 住所を取得します。
 	 * @return String 住所
@@ -45,7 +46,7 @@ public class CartCustomer {
 	public String getAddress() {
 		return address;
 	}
-	
+
 	/**
 	 * 電話番号を取得します。
 	 * @return String 電話番号
@@ -53,7 +54,7 @@ public class CartCustomer {
 	public String getTel() {
 		return tel;
 	}
-	
+
 	/**
 	 * メールアドレスを取得します。
 	 * @return String メールアドレス
@@ -61,7 +62,7 @@ public class CartCustomer {
 	public String getEmail() {
 		return email;
 	}
-	
+
 	/**
 	 * CustomerBean 表現にします。
 	 * @return CustomerBean 顧客情報
@@ -77,4 +78,6 @@ public class CartCustomer {
 		// 顧客情報返却
 		return bean;
 	}
+
+
 }
